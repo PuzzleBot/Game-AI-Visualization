@@ -36,9 +36,6 @@ public class AIvisFrame extends JFrame{
         //pack();
         setVisible(true);
 
-        canvasPanel.panelGraphics = canvasPanel.getGraphics();
-        canvasPanel.panelGraphics.drawOval(200, 200, 50, 50);
-        canvasPanel.paintComponents(canvasPanel.panelGraphics);
         System.out.println("Window setup complete.");
     }
 }

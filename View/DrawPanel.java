@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class DrawPanel extends JPanel{
     public Graphics panelGraphics;
+    private EntitySpace entitySpace;
     private static final int WIDTH = 800;
     private static final int HEIGHT = 650;
 
@@ -19,5 +20,11 @@ public class DrawPanel extends JPanel{
 
         setVisible(true);
         System.out.println("Panel setup complete.");
+    }
+
+    @Override
+    protected void paintComponent(Graphics g){
+        /*Draw the entities here*/
+        g.drawOval(200, 200, 50, 50);
     }
 }
