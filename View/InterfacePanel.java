@@ -16,10 +16,11 @@ public class InterfacePanel extends JPanel{
     public InterfacePanel(){
         super();
         setLayout(new GridBagLayout());
-        setSize(WIDTH, HEIGHT);
+        //setSize(WIDTH, HEIGHT);
 
-        aiChoices = new String[1];
+        aiChoices = new String[2];
         aiChoices[0] = "Emergent Behaviour - Flocking";
+        aiChoices[1] = "A* Algorithm";
         aiChoiceMenu = new JComboBox(aiChoices);
 
         constraints = new GridBagConstraints();

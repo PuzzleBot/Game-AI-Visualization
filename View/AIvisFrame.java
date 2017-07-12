@@ -19,19 +19,27 @@ public class AIvisFrame extends JFrame{
 
         /*Set width, height, and other settings for the UI layout*/
         constraints = new GridBagConstraints();
-        canvasPanel = new DrawPanel();
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.gridwidth = 9;
-        constraints.gridheight = 7;
-        add(canvasPanel, constraints);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.ipadx = 10;
+        constraints.ipady = 10;
 
         controlPanel = new InterfacePanel();
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.gridwidth = 1;
         constraints.gridheight = 7;
+        constraints.weightx = 0.05;
+        constraints.weighty = 1;
         add(controlPanel, constraints);
+
+        canvasPanel = new DrawPanel();
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.gridwidth = 10;
+        constraints.gridheight = 7;
+        constraints.weightx = 0.9;
+        constraints.weighty = 1;
+        add(canvasPanel, constraints);
 
         //pack();
         setVisible(true);
