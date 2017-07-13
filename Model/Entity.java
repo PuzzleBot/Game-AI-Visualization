@@ -1,7 +1,7 @@
 public class Entity{
     public Vector2D position;
-    private Vector2D velocity;
-    private Vector2D acceleration;
+    public Vector2D velocity;
+    public Vector2D acceleration;
 
     public Entity(double x_start, double y_start){
         position.x = x_start;
@@ -20,15 +20,5 @@ public class Entity{
 
         velocity.x = velocity.x + acceleration.x;
         velocity.y = velocity.y + acceleration.y;
-    }
-
-    public void setAcceleration(double x_accel, double y_accel){
-        this.acceleration.x = x_accel;
-        this.acceleration.y = y_accel;
-    }
-
-    public void setAcceleration(Vector2D acceleration){
-        this.acceleration.x = acceleration.x;
-        this.acceleration.y = acceleration.y;
     }
 }
