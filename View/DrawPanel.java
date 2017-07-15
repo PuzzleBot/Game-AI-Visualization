@@ -8,10 +8,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DrawPanel extends JPanel{
     public Graphics panelGraphics;
-    private EntitySpace entitySpace;
+    public EntitySpace entitySpace;
+    public EntityController entityController;
     private static final int WIDTH = 800;
     private static final int HEIGHT = 650;
 
@@ -20,17 +23,34 @@ public class DrawPanel extends JPanel{
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
+        entitySpace = new EntitySpace();
+        entityController = new FlockController(entitySpace);
+        entitySpace.bindController(entityController);
+
         setVisible(true);
         System.out.println("Panel setup complete.");
     }
 
     @Override
     protected void paintComponent(Graphics g){
+        Iterator<Entity> aiEntityIterator = entitySpace.getAiList().iterator();
+        Entity currentAiEntity = null;
+        boolean iterationDone = false;
+
         super.paintComponent(g);
 
         /*Draw the entities here*/
         Graphics2D g2D = (Graphics2D)g;
-        g2D.drawOval(200, 200, 50, 50);
-        g2D.drawOval(0, 0, 10, 10);
+        while(iterationDone == false){
+            try{
+                currentAiEntity = aiEntityIterator.next();
+                g2D.fillOval((int)currentAiEntity.position.x, (int)currentAiEntity.position.y, 10, 10);
+            }
+            catch (NoSuchElementException e){
+                iterationDone = true;
+            }
+        }
+        g2D.fillOval(200, 200, 50, 50);
+        g2D.fillOval(0, 0, 10, 10);
     }
 }

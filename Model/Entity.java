@@ -4,14 +4,11 @@ public class Entity{
     public Vector2D acceleration;
 
     public Entity(double x_start, double y_start){
-        position.x = x_start;
-        position.y = y_start;
+        position = new Vector2D(x_start, y_start);
 
-        velocity.x = 0;
-        velocity.y = 0;
+        velocity = new Vector2D(0, 0);
 
-        acceleration.x = 0;
-        acceleration.y = 0;
+        acceleration = new Vector2D(0, 0);
     }
 
     public void updateEntity(){

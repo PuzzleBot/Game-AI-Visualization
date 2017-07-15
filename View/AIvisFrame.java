@@ -46,4 +46,8 @@ public class AIvisFrame extends JFrame{
 
         System.out.println("Window setup complete.");
     }
+
+    public EntityController getEntityController(){
+        return canvasPanel.entityController;
+    }
 }
