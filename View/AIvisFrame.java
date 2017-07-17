@@ -50,4 +50,8 @@ public class AIvisFrame extends JFrame{
     public EntityController getEntityController(){
         return canvasPanel.entityController;
     }
+
+    public DrawPanel getCanvas(){
+        return canvasPanel;
+    }
 }

@@ -18,4 +18,9 @@ public class Entity{
         velocity.x = velocity.x + acceleration.x;
         velocity.y = velocity.y + acceleration.y;
     }
+
+    public double computeDistanceFrom(Entity otherEntity){
+        /*Pythagorean Theorem*/
+        return Math.sqrt(Math.pow(otherEntity.position.x - position.x, 2) + Math.pow(otherEntity.position.y - position.y, 2));
+    }
 }

@@ -28,7 +28,11 @@ public class DrawPanel extends JPanel{
         entitySpace.bindController(entityController);
 
         setVisible(true);
-        System.out.println("Panel setup complete.");
+        System.out.println("Canvas setup complete.");
+    }
+
+    public void recomputeAiEntities(){
+        
     }
 
     @Override

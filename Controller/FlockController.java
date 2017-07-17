@@ -11,4 +11,8 @@ public class FlockController extends EntityController{
             assignedSpace.addAiEntity();
         }
     }
+
+    public void updateAiEntities(){
+        
+    }
 }

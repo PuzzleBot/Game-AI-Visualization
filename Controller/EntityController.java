@@ -11,6 +11,8 @@ public abstract class EntityController{
         return new Vector2D(0, 0);
     }
 
+    public abstract void updateAiEntities();
+
     public void assignSpace(EntitySpace space){
         controlledSpace = space;
     }
