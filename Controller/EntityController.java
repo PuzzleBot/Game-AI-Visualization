@@ -11,6 +11,7 @@ public abstract class EntityController{
         return new Vector2D(0, 0);
     }
 
+    /*To be called once per frame, contains the main AI algorithm*/
     public abstract void updateAiEntities();
 
     public void assignSpace(EntitySpace space){

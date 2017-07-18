@@ -32,12 +32,12 @@ public class DrawPanel extends JPanel{
     }
 
     public void recomputeAiEntities(){
-        
+        entityController.updateAiEntities();
     }
 
     @Override
     protected void paintComponent(Graphics g){
-        Iterator<Entity> aiEntityIterator = entitySpace.getAiList().iterator();
+        Iterator<Entity> aiEntityIterator = entitySpace.getAiListIterator();
         Entity currentAiEntity = null;
         boolean iterationDone = false;
 

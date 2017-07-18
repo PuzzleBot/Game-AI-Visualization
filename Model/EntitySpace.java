@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class EntitySpace{
@@ -35,7 +36,7 @@ public class EntitySpace{
     }
 
     /*Sets an entity's position, but ensures its within the boundaries*/
-    private void setEntityPosition(Entity entity, Vector2D pos){
+    protected void setEntityPosition(Entity entity, Vector2D pos){
         entity.position.x = pos.x;
         entity.position.y = pos.y;
 
@@ -94,8 +95,8 @@ public class EntitySpace{
         aiEntities.get(index).acceleration.y = accel.y;
     }
 
-    public ArrayList<Entity> getAiList(){
-        return aiEntities;
+    public Iterator<Entity> getAiListIterator(){
+        return aiEntities.iterator();
     }
 
     public void bindController(EntityController controller){
