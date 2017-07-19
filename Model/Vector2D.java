@@ -7,6 +7,11 @@ public class Vector2D{
         this.y = 0;
     }
 
+    public Vector2D(Vector2D v){
+        this.x = v.x;
+        this.y = v.y;
+    }
+
     public Vector2D(double x, double y){
         this.x = x;
         this.y = y;
@@ -30,6 +35,21 @@ public class Vector2D{
     public void add(double x, double y){
         this.x = this.x + x;
         this.y = this.y + y;
+    }
+
+    public void subtract(Vector2D v){
+        this.x = this.x - v.x;
+        this.y = this.y - v.y;
+    }
+
+    public void subtract(double x, double y){
+        this.x = this.x - x;
+        this.y = this.y - y;
+    }
+
+    public void scalarMultiply(double scalar){
+        x = x * scalar;
+        y = y * scalar;
     }
 
     public double dot(Vector2D otherVector){

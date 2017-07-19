@@ -63,6 +63,10 @@ public class EntitySpace{
         return userEntity.position;
     }
 
+    public Entity getUserEntity(){
+        return userEntity;
+    }
+
     public void addAiEntity(){
         /*Add an entity with no velocity or acceleration, at a random position*/
         aiEntities.add(new Entity(rng.nextInt(rightBoundary), rng.nextInt(bottomBoundary)));

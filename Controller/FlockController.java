@@ -13,7 +13,7 @@ public class FlockController extends EntityController{
     public FlockController(EntitySpace assignedSpace){
         super(assignedSpace);
         separationDistance = 20;
-        accelerationSetting = 0.1;
+        accelerationSetting = 0.001;
 
         int i;
         for(i = 0; i < 10; i++){
@@ -47,13 +47,38 @@ public class FlockController extends EntityController{
                     try{
                         compareEntity = compareEntityIterator.next();
 
-                        /*Accelerate away if the entities are too close*/
+                        /*Do not compare an entity with itself*/
+                        if(i != j){
+                            /*Accelerate away if the entities are too close*/
+                            if(modifyEntity.computeDistanceFrom(compareEntity) < separationDistance){
+                                Vector2D directionAway = new Vector2D(modifyEntity.position);
+                                directionAway.subtract(compareEntity.position);
+                                directionAway.normalize();
+                                directionAway.scalarMultiply(accelerationSetting);
+
+                                calculatedAcceleration.add(directionAway);
+                            }
+                        }
                     }
                     catch (NoSuchElementException e){
+                        /*Move towards the user, but keep a certain distance away*/
+                        if(modifyEntity.computeDistanceFrom(controlledSpace.getUserEntity()) > separationDistance){
+                            Vector2D directionToward = new Vector2D(controlledSpace.getUserPosition());
+                            directionToward.subtract(modifyEntity.position);
+                            directionToward.normalize();
+                            directionToward.scalarMultiply(accelerationSetting);
+
+                            calculatedAcceleration.add(directionToward);
+                        }
+                        modifyEntity.acceleration.setValue(calculatedAcceleration);
+
                         compareIterationDone = true;
                     }
                     j++;
                 }
+
+                /*Update position and velocity*/
+                modifyEntity.updateEntity();
             }
             catch (NoSuchElementException e){
                 modifyIterationDone = true;

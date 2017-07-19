@@ -21,6 +21,9 @@ public class DrawPanel extends JPanel{
     private static final int WIDTH = 800;
     private static final int HEIGHT = 650;
 
+    public Color userColor;
+    public Color aiColor;
+
     public boolean mouseInArea;
     public boolean mouseDown;
 
@@ -33,6 +36,9 @@ public class DrawPanel extends JPanel{
         entitySpace = new EntitySpace();
         entityController = new FlockController(entitySpace);
         entitySpace.bindController(entityController);
+
+        userColor = new Color(48, 186, 255, 255);
+        aiColor = new Color(255, 193, 48, 255);
 
         mouseInArea = false;
         mouseDown = false;
@@ -58,6 +64,7 @@ public class DrawPanel extends JPanel{
 
         /*Draw the entities here*/
         Graphics2D g2D = (Graphics2D)g;
+        g2D.setColor(aiColor);
         while(iterationDone == false){
             try{
                 currentAiEntity = aiEntityIterator.next();
@@ -67,6 +74,7 @@ public class DrawPanel extends JPanel{
                 iterationDone = true;
             }
         }
+        g2D.setColor(userColor);
         g2D.fillOval((int)entitySpace.getUserPosition().x, (int)entitySpace.getUserPosition().y, EntitySpace.ENTITY_SIZE, EntitySpace.ENTITY_SIZE);
     }
 
