@@ -16,6 +16,8 @@ public class UpdateViewTask extends TimerTask{
         frameCount++;*/
 
         /*Update the view to match the model, called once per frame*/
+        canvasPanel.recomputeAiEntities();
         canvasPanel.revalidate();
+        canvasPanel.repaint();
     }
 }

@@ -102,7 +102,7 @@ public class DrawPanel extends JPanel{
         public void mouseDragged(MouseEvent e){
             /*Set the user entity's location to the mouse's location on the panel*/
             entitySpace.setUserPosition(new Vector2D(e.getX(), e.getY()));
-            System.out.println("Mouse: " + e.getX() + ", " + e.getY());
+            //System.out.println("Mouse: " + e.getX() + ", " + e.getY());
         }
 
         @Override
