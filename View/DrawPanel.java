@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -18,14 +21,24 @@ public class DrawPanel extends JPanel{
     private static final int WIDTH = 800;
     private static final int HEIGHT = 650;
 
+    public boolean mouseInArea;
+    public boolean mouseDown;
+
     public DrawPanel(){
         super();
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
+        setSize(WIDTH, HEIGHT);
 
         entitySpace = new EntitySpace();
         entityController = new FlockController(entitySpace);
         entitySpace.bindController(entityController);
+
+        mouseInArea = false;
+        mouseDown = false;
+
+        addMouseListener(new UserMouseListener());
+        addMouseMotionListener(new UserMouseMoveListener());
 
         setVisible(true);
         System.out.println("Canvas setup complete.");
@@ -48,13 +61,53 @@ public class DrawPanel extends JPanel{
         while(iterationDone == false){
             try{
                 currentAiEntity = aiEntityIterator.next();
-                g2D.fillOval((int)currentAiEntity.position.x, (int)currentAiEntity.position.y, 10, 10);
+                g2D.fillOval((int)currentAiEntity.position.x, (int)currentAiEntity.position.y, EntitySpace.ENTITY_SIZE, EntitySpace.ENTITY_SIZE);
             }
             catch (NoSuchElementException e){
                 iterationDone = true;
             }
         }
-        g2D.fillOval(200, 200, 50, 50);
-        g2D.fillOval(0, 0, 10, 10);
+        g2D.fillOval((int)entitySpace.getUserPosition().x, (int)entitySpace.getUserPosition().y, EntitySpace.ENTITY_SIZE, EntitySpace.ENTITY_SIZE);
+    }
+
+    public class UserMouseListener implements MouseListener{
+        @Override
+        public void mouseClicked(MouseEvent e){
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e){
+            mouseDown = true;
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e){
+            mouseDown = false;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e){
+            mouseInArea = true;
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e){
+            mouseInArea = false;
+        }
+    }
+
+    public class UserMouseMoveListener implements MouseMotionListener{
+        @Override
+        public void mouseDragged(MouseEvent e){
+            /*Set the user entity's location to the mouse's location on the panel*/
+            entitySpace.setUserPosition(new Vector2D(e.getX(), e.getY()));
+            System.out.println("Mouse: " + e.getX() + ", " + e.getY());
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e){
+
+        }
     }
 }

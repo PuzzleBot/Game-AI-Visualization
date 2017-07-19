@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class EntitySpace{
-    public static final int ENTITY_SIZE = 5;
+    public static final int ENTITY_SIZE = 10;
 
     protected ArrayList<Entity> aiEntities;
     protected Entity userEntity;
@@ -28,11 +28,11 @@ public class EntitySpace{
     }
 
     public int getHorizontalSize(){
-        return rightBoundary;
+        return rightBoundary - leftBoundary;
     }
 
     public int getVerticalSize(){
-        return bottomBoundary;
+        return bottomBoundary - topBoundary;
     }
 
     /*Sets an entity's position, but ensures its within the boundaries*/
