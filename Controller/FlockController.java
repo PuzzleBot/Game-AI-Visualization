@@ -8,17 +8,21 @@
 
 public class FlockController extends EntityController{
     public double separationDistance;
-    public double accelerationSetting;
+    public double velocitySetting;
+
+    public boolean useAccelerationInstead;
 
     public FlockController(EntitySpace assignedSpace){
         super(assignedSpace);
-        separationDistance = 20;
-        accelerationSetting = 0.001;
+        separationDistance = 30;
+        velocitySetting = 0.8;
 
         int i;
-        for(i = 0; i < 10; i++){
+        for(i = 0; i < 40; i++){
             assignedSpace.addAiEntity();
         }
+
+        useAccelerationInstead = false;
     }
 
     public void updateAiEntities(){
@@ -28,7 +32,7 @@ public class FlockController extends EntityController{
         Iterator<Entity> compareEntityIterator;
         Entity modifyEntity;
         Entity compareEntity;
-        Vector2D calculatedAcceleration = new Vector2D(0, 0);
+        Vector2D calculatedVelocity = new Vector2D(0, 0);
         int i;
         int j;
         boolean modifyIterationDone = false;
@@ -41,7 +45,7 @@ public class FlockController extends EntityController{
                 modifyEntity = modifyEntityIterator.next();
                 compareEntityIterator = controlledSpace.getAiListIterator();
                 compareIterationDone = false;
-                calculatedAcceleration.setValue(0, 0);
+                calculatedVelocity.setValue(0, 0);
                 j = 0;
                 while(compareIterationDone == false){
                     try{
@@ -54,9 +58,9 @@ public class FlockController extends EntityController{
                                 Vector2D directionAway = new Vector2D(modifyEntity.position);
                                 directionAway.subtract(compareEntity.position);
                                 directionAway.normalize();
-                                directionAway.scalarMultiply(accelerationSetting);
+                                directionAway.scalarMultiply(velocitySetting * 1.1);
 
-                                calculatedAcceleration.add(directionAway);
+                                calculatedVelocity.add(directionAway);
                             }
                         }
                     }
@@ -66,24 +70,39 @@ public class FlockController extends EntityController{
                             Vector2D directionToward = new Vector2D(controlledSpace.getUserPosition());
                             directionToward.subtract(modifyEntity.position);
                             directionToward.normalize();
-                            directionToward.scalarMultiply(accelerationSetting);
+                            directionToward.scalarMultiply(velocitySetting);
 
-                            calculatedAcceleration.add(directionToward);
+                            calculatedVelocity.add(directionToward);
                         }
-                        modifyEntity.acceleration.setValue(calculatedAcceleration);
+                        else{
+                            Vector2D directionAway = new Vector2D(modifyEntity.position);
+                            directionAway.subtract(controlledSpace.getUserPosition());
+                            directionAway.normalize();
+                            directionAway.scalarMultiply(velocitySetting * 1.1);
+
+                            calculatedVelocity.add(directionAway);
+                        }
+
+                        /*Alter the entities' acceleration or velocity?*/
+                        if(useAccelerationInstead){
+                            modifyEntity.acceleration.setValue(calculatedVelocity);
+                        }
+                        else{
+                            modifyEntity.velocity.setValue(calculatedVelocity);
+                        }
 
                         compareIterationDone = true;
                     }
                     j++;
                 }
-
-                /*Update position and velocity*/
-                modifyEntity.updateEntity();
             }
             catch (NoSuchElementException e){
                 modifyIterationDone = true;
             }
             i++;
         }
+
+        /*Update the positions and velocities of all ai entities*/
+        controlledSpace.updateAllAiPositions();
     }
 }

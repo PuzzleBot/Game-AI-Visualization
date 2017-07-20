@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class EntitySpace{
@@ -16,15 +17,19 @@ public class EntitySpace{
     protected int topBoundary;
     protected int bottomBoundary;
 
+    public boolean boundariesEnabled;
+
     public EntitySpace(){
         aiEntities = new ArrayList<Entity>();
-        userEntity = new Entity(0, 0);
+        userEntity = new Entity(200, 200);
         rng = new Random();
 
         leftBoundary = 0;
         rightBoundary = 800;
         topBoundary = 0;
         bottomBoundary = 600;
+
+        boundariesEnabled = false;
     }
 
     public int getHorizontalSize(){
@@ -40,18 +45,20 @@ public class EntitySpace{
         entity.position.x = pos.x;
         entity.position.y = pos.y;
 
-        if(entity.position.x < leftBoundary){
-            entity.position.x = leftBoundary;
-        }
-        else if(entity.position.x > rightBoundary){
-            entity.position.x = rightBoundary;
-        }
+        if(boundariesEnabled == true){
+            if(entity.position.x < leftBoundary){
+                entity.position.x = leftBoundary;
+            }
+            else if(entity.position.x > rightBoundary){
+                entity.position.x = rightBoundary;
+            }
 
-        if(entity.position.y < topBoundary){
-            entity.position.y = topBoundary;
-        }
-        else if(entity.position.y > bottomBoundary){
-            entity.position.y = bottomBoundary;
+            if(entity.position.y < topBoundary){
+                entity.position.y = topBoundary;
+            }
+            else if(entity.position.y > bottomBoundary){
+                entity.position.y = bottomBoundary;
+            }
         }
     }
 
@@ -87,6 +94,25 @@ public class EntitySpace{
 
         targetEntity.velocity.x = targetEntity.velocity.x + targetEntity.acceleration.x;
         targetEntity.velocity.y = targetEntity.velocity.y + targetEntity.acceleration.y;
+    }
+
+    public void updateAllAiPositions(){
+        Iterator<Entity> iterator = aiEntities.iterator();
+        boolean iterationDone = false;
+
+        while(iterationDone == false){
+            try{
+                Entity targetEntity = iterator.next();
+                Vector2D newPosition = new Vector2D(targetEntity.position.x + targetEntity.velocity.x, targetEntity.position.y + targetEntity.velocity.y);
+                setEntityPosition(targetEntity, newPosition);
+
+                targetEntity.velocity.x = targetEntity.velocity.x + targetEntity.acceleration.x;
+                targetEntity.velocity.y = targetEntity.velocity.y + targetEntity.acceleration.y;
+            }
+            catch (NoSuchElementException e){
+                iterationDone = true;
+            }
+        }
     }
 
     public void setAiVelocity(int index, Vector2D vel){
