@@ -38,6 +38,8 @@ public class FlockController extends EntityController{
         boolean modifyIterationDone = false;
         boolean compareIterationDone = false;
 
+        controlledSpace.aiReadLock();
+
         /*Basically a nested for loop*/
         i = 0;
         while(modifyIterationDone == false){
@@ -103,6 +105,7 @@ public class FlockController extends EntityController{
         }
 
         /*Update the positions and velocities of all ai entities*/
+        controlledSpace.aiReadUnlock();
         controlledSpace.updateAllAiPositions();
     }
 }

@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class EntitySpace{
     public static final int ENTITY_SIZE = 10;
@@ -9,6 +11,7 @@ public class EntitySpace{
     protected ArrayList<Entity> aiEntities;
     protected Entity userEntity;
     protected EntityController controller;
+    protected ReadWriteLock aiEntitiesLock;
 
     protected Random rng;
 
@@ -22,6 +25,8 @@ public class EntitySpace{
     public EntitySpace(){
         aiEntities = new ArrayList<Entity>();
         userEntity = new Entity(200, 200);
+        aiEntitiesLock = new ReentrantReadWriteLock();
+
         rng = new Random();
 
         leftBoundary = 0;
@@ -116,8 +121,10 @@ public class EntitySpace{
     }
 
     public void setAiAcceleration(int index, Vector2D accel){
+        aiEntitiesLock.writeLock().lock();
         aiEntities.get(index).acceleration.x = accel.x;
         aiEntities.get(index).acceleration.y = accel.y;
+        aiEntitiesLock.writeLock().unlock();
     }
 
     public Iterator<Entity> getAiListIterator(){
@@ -135,16 +142,23 @@ public class EntitySpace{
 
     public void addAiEntity(){
         /*Add an entity with no velocity or acceleration, at a random position*/
+        aiEntitiesLock.writeLock().lock();
         aiEntities.add(new Entity(rng.nextInt(rightBoundary), rng.nextInt(bottomBoundary)));
+        aiEntitiesLock.writeLock().unlock();
     }
 
     public void deleteOldestAiEntity() throws IndexOutOfBoundsException{
-        /*Remove the oldest ai entity
-         *Use an iterator as a workaround to avoid concurrency errors*/
-        Iterator<Entity> iter = aiEntities.iterator();
-        iter.next();
-        iter.remove();
+        /*Remove the oldest ai entity*/
+        aiEntitiesLock.writeLock().lock();
+        aiEntities.remove(0);
+        aiEntitiesLock.writeLock().unlock();
+    }
 
-        /*BUGGED - DO NOT USE*/
+    public void aiReadLock(){
+        aiEntitiesLock.readLock().lock();
+    }
+
+    public void aiReadUnlock(){
+        aiEntitiesLock.readLock().unlock();
     }
 }
