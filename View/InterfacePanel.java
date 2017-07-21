@@ -5,10 +5,14 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InterfacePanel extends JPanel{
     public static final int WIDTH = 100;
     public static final int HEIGHT = 650;
+
+    private DrawPanel canvasPanel;
 
     private JComboBox aiChoiceMenu;
     private String[] aiChoices;
@@ -18,10 +22,12 @@ public class InterfacePanel extends JPanel{
 
     private GridBagConstraints constraints;
 
-    public InterfacePanel(){
+    public InterfacePanel(DrawPanel canvasPanel){
         super();
         setLayout(new GridBagLayout());
         //setSize(WIDTH, HEIGHT);
+
+        this.canvasPanel = canvasPanel;
 
         aiChoices = new String[2];
         aiChoices[0] = "Emergent Behaviour - Flocking";
@@ -42,6 +48,7 @@ public class InterfacePanel extends JPanel{
 
         /*Add/remove AI entities*/
         removeOneAiButton = new JButton("-");
+        removeOneAiButton.addActionListener(new AiPopulationListener());
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
@@ -50,7 +57,8 @@ public class InterfacePanel extends JPanel{
         constraints.weighty = 0.3;
         add(removeOneAiButton, constraints);
 
-        aiNumberField = new JTextField("30");
+        aiNumberField = new JTextField(Integer.toString(canvasPanel.entitySpace.getNumberOfAiEntities()));
+        aiNumberField.addActionListener(new AiPopulationListener());
         aiNumberField.setSize(30, 5);
         constraints.gridx = 1;
         constraints.gridy = 1;
@@ -61,6 +69,7 @@ public class InterfacePanel extends JPanel{
         add(aiNumberField, constraints);
 
         addOneAiButton = new JButton("+");
+        addOneAiButton.addActionListener(new AiPopulationListener());
         constraints.gridx = 2;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
@@ -70,5 +79,33 @@ public class InterfacePanel extends JPanel{
         add(addOneAiButton, constraints);
 
         setVisible(true);
+    }
+
+    public class AiPopulationListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            //System.out.println(e.getActionCommand());
+            switch(e.getActionCommand()){
+                case "-":
+                    try{
+                        canvasPanel.entitySpace.deleteOldestAiEntity();
+                        aiNumberField.setText(Integer.toString(canvasPanel.entitySpace.getNumberOfAiEntities()));
+                    } catch (IndexOutOfBoundsException except){
+
+                    }
+                    break;
+                case "+":
+                    canvasPanel.entitySpace.addAiEntity();
+                    aiNumberField.setText(Integer.toString(canvasPanel.entitySpace.getNumberOfAiEntities()));
+                    break;
+                default:
+                    parsePopulationInput(e.getActionCommand());
+                    break;
+            }
+        }
+
+        private int parsePopulationInput(String input){
+            /*Stub*/
+            return 0;
+        }
     }
 }

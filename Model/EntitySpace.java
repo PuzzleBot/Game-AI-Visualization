@@ -74,11 +74,6 @@ public class EntitySpace{
         return userEntity;
     }
 
-    public void addAiEntity(){
-        /*Add an entity with no velocity or acceleration, at a random position*/
-        aiEntities.add(new Entity(rng.nextInt(rightBoundary), rng.nextInt(bottomBoundary)));
-    }
-
     public void setAiPosition(int index, Vector2D pos){
         setEntityPosition(aiEntities.get(index), pos);
     }
@@ -132,5 +127,24 @@ public class EntitySpace{
     public void bindController(EntityController controller){
         this.controller = controller;
         controller.assignSpace(this);
+    }
+
+    public int getNumberOfAiEntities(){
+        return aiEntities.size();
+    }
+
+    public void addAiEntity(){
+        /*Add an entity with no velocity or acceleration, at a random position*/
+        aiEntities.add(new Entity(rng.nextInt(rightBoundary), rng.nextInt(bottomBoundary)));
+    }
+
+    public void deleteOldestAiEntity() throws IndexOutOfBoundsException{
+        /*Remove the oldest ai entity
+         *Use an iterator as a workaround to avoid concurrency errors*/
+        Iterator<Entity> iter = aiEntities.iterator();
+        iter.next();
+        iter.remove();
+
+        /*BUGGED - DO NOT USE*/
     }
 }

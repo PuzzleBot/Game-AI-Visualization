@@ -23,15 +23,6 @@ public class AIvisFrame extends JFrame{
         constraints.ipadx = 10;
         constraints.ipady = 10;
 
-        controlPanel = new InterfacePanel();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 7;
-        constraints.weightx = 0.05;
-        constraints.weighty = 1;
-        add(controlPanel, constraints);
-
         canvasPanel = new DrawPanel();
         constraints.gridx = 1;
         constraints.gridy = 0;
@@ -40,6 +31,15 @@ public class AIvisFrame extends JFrame{
         constraints.weightx = 0.9;
         constraints.weighty = 1;
         add(canvasPanel, constraints);
+
+        controlPanel = new InterfacePanel(canvasPanel);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 7;
+        constraints.weightx = 0.05;
+        constraints.weighty = 1;
+        add(controlPanel, constraints);
 
         //pack();
         setVisible(true);
