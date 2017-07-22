@@ -100,6 +100,7 @@ public class EntitySpace{
         Iterator<Entity> iterator = aiEntities.iterator();
         boolean iterationDone = false;
 
+        aiEntitiesLock.writeLock().lock();
         while(iterationDone == false){
             try{
                 Entity targetEntity = iterator.next();
@@ -113,11 +114,14 @@ public class EntitySpace{
                 iterationDone = true;
             }
         }
+        aiEntitiesLock.writeLock().unlock();
     }
 
     public void setAiVelocity(int index, Vector2D vel){
+        aiEntitiesLock.writeLock().lock();
         aiEntities.get(index).velocity.x = vel.x;
         aiEntities.get(index).velocity.y = vel.y;
+        aiEntitiesLock.writeLock().unlock();
     }
 
     public void setAiAcceleration(int index, Vector2D accel){
@@ -152,6 +156,30 @@ public class EntitySpace{
         aiEntitiesLock.writeLock().lock();
         aiEntities.remove(0);
         aiEntitiesLock.writeLock().unlock();
+    }
+
+    public void setNumberOfAiEntities(int numberOfAiEntities){
+        if(numberOfAiEntities > aiEntities.size()){
+            /*Number of ai entities wanted is greater than current number - add entities until
+             *the number is reached*/
+            int i;
+            for(i = (numberOfAiEntities - aiEntities.size()); i > 0; i--){
+                addAiEntity();
+            }
+        }
+        else if(numberOfAiEntities < aiEntities.size()){
+            /*Number of ai entities wanted is less than current number - remove entities until
+             *the number is reached*/
+            int i;
+            for(i = (aiEntities.size() - numberOfAiEntities); i > 0; i--){
+                try{
+                    deleteOldestAiEntity();
+                }
+                catch (IndexOutOfBoundsException e){
+                    
+                }
+            }
+        }
     }
 
     public void aiReadLock(){

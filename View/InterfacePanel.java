@@ -98,14 +98,25 @@ public class InterfacePanel extends JPanel{
                     aiNumberField.setText(Integer.toString(canvasPanel.entitySpace.getNumberOfAiEntities()));
                     break;
                 default:
-                    parsePopulationInput(e.getActionCommand());
+                    try{
+                        int populationAmount = parsePopulationInput(e.getActionCommand());
+                        canvasPanel.entitySpace.setNumberOfAiEntities(populationAmount);
+                    }
+                    catch(InvalidValueException except){
+
+                    }
+
                     break;
             }
         }
 
-        private int parsePopulationInput(String input){
-            /*Stub*/
-            return 0;
+        private int parsePopulationInput(String input) throws InvalidValueException{
+            if(input.matches("[0-9]+")){
+                return Integer.parseInt(input);
+            }
+            else{
+                throw new InvalidValueException("Error - Invalid input. The input must be an integer.");
+            }
         }
     }
 }
