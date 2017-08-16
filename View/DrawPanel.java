@@ -54,6 +54,10 @@ public class DrawPanel extends JPanel{
         entityController.updateAiEntities();
     }
 
+    public void updateEntityCount(){
+        entitySpace.attemptQueuedCountChange();
+    }
+
     @Override
     protected void paintComponent(Graphics g){
         Iterator<Entity> aiEntityIterator = entitySpace.getAiListIterator();
@@ -61,21 +65,24 @@ public class DrawPanel extends JPanel{
         boolean iterationDone = false;
 
         super.paintComponent(g);
+        if(entitySpace.aiTryLock()){
+            /*Draw the entities here*/
+            Graphics2D g2D = (Graphics2D)g;
+            g2D.setColor(aiColor);
+            while(iterationDone == false){
+                try{
+                    currentAiEntity = aiEntityIterator.next();
+                    g2D.fillOval((int)currentAiEntity.position.x, (int)currentAiEntity.position.y, EntitySpace.ENTITY_SIZE, EntitySpace.ENTITY_SIZE);
+                }
+                catch (NoSuchElementException e){
+                    iterationDone = true;
+                }
+            }
+            g2D.setColor(userColor);
+            g2D.fillOval((int)entitySpace.getUserPosition().x, (int)entitySpace.getUserPosition().y, EntitySpace.ENTITY_SIZE, EntitySpace.ENTITY_SIZE);
 
-        /*Draw the entities here*/
-        Graphics2D g2D = (Graphics2D)g;
-        g2D.setColor(aiColor);
-        while(iterationDone == false){
-            try{
-                currentAiEntity = aiEntityIterator.next();
-                g2D.fillOval((int)currentAiEntity.position.x, (int)currentAiEntity.position.y, EntitySpace.ENTITY_SIZE, EntitySpace.ENTITY_SIZE);
-            }
-            catch (NoSuchElementException e){
-                iterationDone = true;
-            }
+            entitySpace.aiUnlock();
         }
-        g2D.setColor(userColor);
-        g2D.fillOval((int)entitySpace.getUserPosition().x, (int)entitySpace.getUserPosition().y, EntitySpace.ENTITY_SIZE, EntitySpace.ENTITY_SIZE);
     }
 
     public class UserMouseListener implements MouseListener{
