@@ -1,11 +1,12 @@
-/* An entity in a flock follows two rules:
-* Move towards the leader
-* Keep a distance from other entities in the flock*/
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.ArrayList;
 
+/* A type of entity controller which causes the entities to move according to the
+ * flocking algorithm:
+ * An entity in a flock follows two rules:
+ * Move towards the leader
+ * Keep a distance from other entities in the flock*/
 public class FlockController extends EntityController{
     public double separationDistance;
     public double velocitySetting;

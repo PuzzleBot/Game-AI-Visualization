@@ -8,6 +8,9 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/* This is the panel which holds UI controls next to the visual simulation -
+ * it allows for parts of the simulation to be modified while it is running
+ * such as the number of entities in the simulation*/
 public class InterfacePanel extends JPanel{
     public static final int WIDTH = 100;
     public static final int HEIGHT = 650;

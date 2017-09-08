@@ -5,6 +5,9 @@ import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/* A class which represents a 2D environment which entities exist in.
+ * It also provides the user with an entity under their control, which
+ * may be moved to the mouse's position by clicking.*/
 public class EntitySpace{
     public static final int ENTITY_SIZE = 10;
 

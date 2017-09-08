@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/*This is the panel which the entities in the environment are drawn in*/
 public class DrawPanel extends JPanel{
     public Graphics panelGraphics;
     public EntitySpace entitySpace;

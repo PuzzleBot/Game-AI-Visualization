@@ -1,3 +1,7 @@
+/* A class representing an entity - a thing existing in the environment
+ * which may move and interact with other things in the environment.
+ * An entity always has a position in the environment, and may have an
+ * acceleration and velocity to dictate how its position changes over time.*/
 public class Entity{
     public Vector2D position;
     public Vector2D velocity;

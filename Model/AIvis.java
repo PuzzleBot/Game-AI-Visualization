@@ -1,6 +1,7 @@
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*The main program class, which holds the startup procedure for the program.*/
 public class AIvis{
     public static AIvisFrame mainWindow;
     public static Timer timer;

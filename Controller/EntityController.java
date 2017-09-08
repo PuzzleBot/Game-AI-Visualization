@@ -1,3 +1,5 @@
+/* An abstract class which dictates how entities should move in the environment.
+ * Subclasses of this class should hold the AI algorithm in updateAiEntities().*/
 public abstract class EntityController{
     protected EntitySpace controlledSpace;
 

@@ -3,6 +3,8 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
+/* This is the main UI window holding the visual simulation and
+ * its controls*/
 public class AIvisFrame extends JFrame{
     private DrawPanel canvasPanel;
     private InterfacePanel controlPanel;

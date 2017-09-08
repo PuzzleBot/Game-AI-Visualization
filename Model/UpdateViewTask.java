@@ -1,5 +1,7 @@
 import java.util.TimerTask;
 
+/* A class holding the procedure for updating the view each frame to match
+ * the model*/
 public class UpdateViewTask extends TimerTask{
     private DrawPanel canvasPanel;
     public int frameCount;
